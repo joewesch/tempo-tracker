@@ -10,10 +10,18 @@ app = Flask(__name__)
 
 WELLNESS_CODES = ["NI2-5", "NI2-6", "NI2-22", "NI2-23"]
 
+TEMPO_USER_ID = os.getenv("TEMPO_USER_ID")
+if not TEMPO_USER_ID:
+    raise ValueError("Missing environment variable TEMPO_USER_ID")
+
+TEMPO_TOKEN = os.getenv("TEMPO_TOKEN")
+if not TEMPO_TOKEN:
+    raise ValueError("Missing environment variable TEMPO_TOKEN")
+
 
 def get_entries(start, end):
-    user_id = os.getenv("TEMPO_USER_ID")
-    token = os.getenv("TEMPO_TOKEN")
+    user_id = TEMPO_USER_ID
+    token = TEMPO_TOKEN
     headers = {
         "Accept": "application/json",
         "Authorization": f"Bearer {token}",
@@ -113,4 +121,4 @@ def other_date(path):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
