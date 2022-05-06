@@ -1,0 +1,19 @@
+<h4>Week</h4>
+Total Minutes: {{ total_week_minutes }} ({{ total_week_wellness }} Wellness)<br>
+Billable Minutes: {{ total_week_billable }}<br>
+Billable Percentage: {% if total_week_minutes %}{{ '%0.2f' % (total_week_billable / total_week_minutes * 100) }}{% else %}0{% endif %}%
+
+<h4>Month</h4>
+Total Minutes: {{ total_month_minutes }} ({{ total_month_wellness }} Wellness)<br>
+Billable Minutes: {{ total_month_billable }}<br>
+Billable Percentage: {% if total_month_minutes %}{{ '%0.2f' % (total_month_billable / total_month_minutes * 100) }}{% else %}0{% endif %}%
+
+<h4>Quarter</h4>
+Total Minutes: {{ total_quarter_minutes }} ({{ total_quarter_wellness }} Wellness)<br>
+Billable Minutes: {{ total_quarter_billable }}<br>
+Billable Percentage: {% if total_quarter_minutes %}{{ '%0.2f' % (total_quarter_billable / total_quarter_minutes * 100) }}{% else %}0{% endif %}%
+
+<h4>Year</h4>
+Total Minutes: {{ total_year_minutes }} ({{ total_year_wellness }} Wellness)<br>
+Billable Minutes: {{ total_year_billable }}<br>
+Billable Percentage: {% if total_year_minutes %}{{ '%0.2f' % (total_year_billable / total_year_minutes * 100) }}{% else %}0{% endif %}%
