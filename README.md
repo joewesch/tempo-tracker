@@ -37,3 +37,9 @@ export TEMPO_USER_ID=drxlonguserid
 export TEMPO_TOKEN=drxlongtempotoken
 python tempo_tracker.py
 ``` 
+
+## Variable Date
+
+The standard end date for the script is `today`, but you can run the script with a different end date by adding it to the URI in the format of `YYYY-MM-DD`
+
+> For example: http://localhost:5000/2021-12-31
