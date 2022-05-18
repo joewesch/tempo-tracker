@@ -33,13 +33,14 @@ docker run -p 5000:5000 -e TEMPO_USER_ID=drxlonguserid -e TEMPO_TOKEN=drxlongtem
 ```
 git clone https://github.com/joewesch/tempo-tracker.git
 cd tempo-tracker
+poetry shell
 export TEMPO_USER_ID=drxlonguserid
 export TEMPO_TOKEN=drxlongtempotoken
-python tempo_tracker.py
+python tempo_cli.py
 ``` 
 
 ## Variable Date
 
-The standard end date for the script is `today`, but you can run the script with a different end date by adding it to the URI in the format of `YYYY-MM-DD`
+The standard end date for the script is `today`, but you can run the script with a different end date by adding it to the URI or CLI in the format of `YYYY-MM-DD`
 
-> For example: http://localhost:5000/2021-12-31
+> For example: http://localhost:5000/2021-12-31 when running the Flask app or `python tempo_cli.py 2021-12-31` for CLI

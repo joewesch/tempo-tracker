@@ -2,13 +2,13 @@ from datetime import datetime, date
 from dateutil.relativedelta import MO, relativedelta
 import os
 
-from flask import Flask, render_template, request
 import requests
-
-app = Flask(__name__)
 
 
 WELLNESS_CODES = ["NI2-5", "NI2-6", "NI2-22", "NI2-23"]
+
+# These are codes that show up in Tempo as billable, but they shouldn't be
+NON_BILLABLE_CODES = ["NI2-18", "NAUTOBOT-269", "NAUTOBOT-270", "NAUTOBOT-391", "NAUTOBOT-392"]
 
 TEMPO_USER_ID = os.getenv("TEMPO_USER_ID")
 if not TEMPO_USER_ID:
@@ -65,12 +65,15 @@ def get_context(start_date):
         "total_week_minutes": 0,
         "total_week_billable": 0,
         "total_week_wellness": 0,
+        "weeks": {},
     }
 
     entries = get_entries(year_start.strftime("%Y-%m-%d"), start_date.strftime("%Y-%m-%d"))
     for entry in entries:
         entry_minutes = int(entry["timeSpentSeconds"] / 60)
         entry_billable = int(entry["billableSeconds"] / 60)
+        if entry["issue"]["key"] in NON_BILLABLE_CODES:
+            entry_billable = 0
         context["total_year_billable"] += entry_billable
         if entry["issue"]["key"] not in WELLNESS_CODES:
             context["total_year_minutes"] += entry_minutes
@@ -80,6 +83,25 @@ def get_context(start_date):
         # if "QBR" in entry["description"] and "NI2-16" in entry["description"]:
         #     print(f"Possible QBR spotted: ({entry['startDate']}) {entry['description']}")
         entry_date = datetime.strptime(entry["startDate"], "%Y-%m-%d").date()
+        week_num = entry_date.isocalendar().week
+        context["weeks"].setdefault(
+            week_num,
+            {
+                "start_date": str(entry_date),
+                "total": 0,
+                "billable": 0,
+                "nonbillable": 0,
+                "well": 0,
+            },
+        )
+        context["weeks"][week_num]["total"] += entry_minutes
+        if entry_billable:
+            context["weeks"][week_num]["billable"] += entry_billable
+        elif entry["issue"]["key"] in WELLNESS_CODES:
+            context["weeks"][week_num]["well"] += entry_minutes
+        else:
+            context["weeks"][week_num]["nonbillable"] += entry_minutes
+
         if entry_date >= quarter_start:
             context["total_quarter_billable"] += entry_billable
             if entry["issue"]["key"] not in WELLNESS_CODES:
@@ -100,25 +122,3 @@ def get_context(start_date):
                 context["total_week_wellness"] += entry_minutes
 
     return context
-
-
-@app.route("/")
-def index():
-    today = date.today()
-    context = get_context(today)
-    return render_template("index.html", **context)
-
-
-@app.route("/<path:path>")
-def other_date(path):
-    try:
-        today = datetime.strptime(path, "%Y-%m-%d").date()
-    except Exception as err:
-        print(f"Unable to parse date: {err}")
-        today = date.today()
-    context = get_context(today)
-    return render_template("index.html", **context)
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)

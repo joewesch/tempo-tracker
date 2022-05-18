@@ -37,4 +37,4 @@ COPY . .
 
 ENTRYPOINT [ "python" ]
 
-CMD [ "tempo_tracker.py" ]
+CMD [ "tempo_flask.py" ]

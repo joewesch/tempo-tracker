@@ -1,19 +1,51 @@
-<h4>Week</h4>
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+    td {
+        text-align: right;
+    }
+</style>
+
+<h4>== Week ==</h4>
 Total Minutes: {{ total_week_minutes }} ({{ total_week_wellness }} Wellness)<br>
 Billable Minutes: {{ total_week_billable }}<br>
 Billable Percentage: {% if total_week_minutes %}{{ '%0.2f' % (total_week_billable / total_week_minutes * 100) }}{% else %}0{% endif %}%
 
-<h4>Month</h4>
+<h4>== Month ==</h4>
 Total Minutes: {{ total_month_minutes }} ({{ total_month_wellness }} Wellness)<br>
 Billable Minutes: {{ total_month_billable }}<br>
 Billable Percentage: {% if total_month_minutes %}{{ '%0.2f' % (total_month_billable / total_month_minutes * 100) }}{% else %}0{% endif %}%
 
-<h4>Quarter</h4>
+<h4>== Quarter ==</h4>
 Total Minutes: {{ total_quarter_minutes }} ({{ total_quarter_wellness }} Wellness)<br>
 Billable Minutes: {{ total_quarter_billable }}<br>
 Billable Percentage: {% if total_quarter_minutes %}{{ '%0.2f' % (total_quarter_billable / total_quarter_minutes * 100) }}{% else %}0{% endif %}%
 
-<h4>Year</h4>
+<h4>== Year ==</h4>
 Total Minutes: {{ total_year_minutes }} ({{ total_year_wellness }} Wellness)<br>
 Billable Minutes: {{ total_year_billable }}<br>
-Billable Percentage: {% if total_year_minutes %}{{ '%0.2f' % (total_year_billable / total_year_minutes * 100) }}{% else %}0{% endif %}%
+Billable Percentage: {% if total_year_minutes %}{{ '%0.2f' % (total_year_billable / total_year_minutes * 100) }}{% else %}0{% endif %}%<br>
+<br>
+
+<h4>== Weekly Breakdown ==</h4>
+<table class="table table-hover panel-body attr-table">
+    <thead>
+        <tr>
+            <th>Week Start</th>
+            <th>Total</th>
+            <th>Billable</th>
+            <th>Non-Billable</th>
+            <th>Wellness</th>
+        </tr>
+        {% for week in weeks.values() %}
+        <tr>
+            <td>{{ week.start_date }}</td>
+            <td>{{ week.total }}</td>
+            <td>{{ week.billable }}</td>
+            <td>{{ week.nonbillable }}</td>
+            <td>{{ week.well }}</td>
+        </tr>
+        {% endfor %}
+    </thead>
+</table>
