@@ -6,26 +6,30 @@
         text-align: right;
     }
 </style>
-
+End Date: {{ end_date }}<br>
 <h4>== Week ==</h4>
-Total Minutes: {{ total_week_minutes }} ({{ total_week_wellness }} Wellness)<br>
-Billable Minutes: {{ total_week_billable }}<br>
-Billable Percentage: {% if total_week_minutes %}{{ '%0.2f' % (total_week_billable / total_week_minutes * 100) }}{% else %}0{% endif %}%
+Total Hours Expected: {{ week_denominator }}<br>
+Total Hours Reported: {{ total_week_hours }} ({{ total_week_wellness }} Wellness)<br>
+Billable Hours: {{ total_week_billable }}<br>
+Billable Percentage: {% if total_week_hours %}{{ '%0.2f' % (total_week_billable / (week_denominator - total_week_wellness) * 100) }}{% else %}0{% endif %}%
 
 <h4>== Month ==</h4>
-Total Minutes: {{ total_month_minutes }} ({{ total_month_wellness }} Wellness)<br>
-Billable Minutes: {{ total_month_billable }}<br>
-Billable Percentage: {% if total_month_minutes %}{{ '%0.2f' % (total_month_billable / total_month_minutes * 100) }}{% else %}0{% endif %}%
+Total Hours Expected: {{ month_denominator }}<br>
+Total Hours Reported: {{ total_month_hours }} ({{ total_month_wellness }} Wellness)<br>
+Billable Hours: {{ total_month_billable }}<br>
+Billable Percentage: {% if total_month_hours %}{{ '%0.2f' % (total_month_billable / (month_denominator - total_month_wellness) * 100) }}{% else %}0{% endif %}%
 
 <h4>== Quarter ==</h4>
-Total Minutes: {{ total_quarter_minutes }} ({{ total_quarter_wellness }} Wellness)<br>
-Billable Minutes: {{ total_quarter_billable }}<br>
-Billable Percentage: {% if total_quarter_minutes %}{{ '%0.2f' % (total_quarter_billable / total_quarter_minutes * 100) }}{% else %}0{% endif %}%
+Total Hours Expected: {{ quarter_denominator }}<br>
+Total Hours Reported: {{ total_quarter_hours }} ({{ total_quarter_wellness }} Wellness)<br>
+Billable Hours: {{ total_quarter_billable }}<br>
+Billable Percentage: {% if total_quarter_hours %}{{ '%0.2f' % (total_quarter_billable / (quarter_denominator - total_quarter_wellness) * 100) }}{% else %}0{% endif %}%
 
 <h4>== Year ==</h4>
-Total Minutes: {{ total_year_minutes }} ({{ total_year_wellness }} Wellness)<br>
-Billable Minutes: {{ total_year_billable }}<br>
-Billable Percentage: {% if total_year_minutes %}{{ '%0.2f' % (total_year_billable / total_year_minutes * 100) }}{% else %}0{% endif %}%<br>
+Total Hours Expected: {{ year_denominator }}<br>
+Total Hours Reported: {{ total_year_hours }} ({{ total_year_wellness }} Wellness)<br>
+Billable Hours: {{ total_year_billable }}<br>
+Billable Percentage: {% if total_year_hours %}{{ '%0.2f' % (total_year_billable / (year_denominator - total_year_wellness) * 100) }}{% else %}0{% endif %}%<br>
 <br>
 
 <h4>== Weekly Breakdown ==</h4>
