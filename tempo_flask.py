@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 from flask import Flask, render_template, abort
 
@@ -9,8 +9,10 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    today = date.today()
-    context = get_context(today)
+    # Default start date is yesterday
+    end_date = date.today() - timedelta(days=1)
+    context = get_context(end_date)
+    context["end_date"] = str(end_date)
     return render_template("index.html", **context)
 
 
@@ -23,11 +25,13 @@ def favicon():
 @app.route("/<path:path>")
 def other_date(path):
     try:
-        today = datetime.strptime(path, "%Y-%m-%d").date()
+        end_date = datetime.strptime(path, "%Y-%m-%d").date()
     except Exception as err:
         print(f"Unable to parse date: {err}")
-        today = date.today()
-    context = get_context(today)
+        # Default end date is yesterday
+        end_date = date.today() - timedelta(days=1)
+    context = get_context(end_date)
+    context["end_date"] = str(end_date)
     return render_template("index.html", **context)
 
 
