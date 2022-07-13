@@ -76,6 +76,17 @@ def get_context(end_date):
     }
 
     entries = get_entries(year_start.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d"))
+    if not entries:
+        return context
+
+    # Skew denominators for new hires that started mid-year
+    first_entry = entries[0]
+    first_entry_date = datetime.strptime(first_entry["startDate"], "%Y-%m-%d").date()
+    context["year_denominator"] -= numpy.busday_count(year_start, first_entry_date) * 8
+    context["quarter_denominator"] -= numpy.busday_count(quarter_start, first_entry_date) * 8
+    context["month_denominator"] -= numpy.busday_count(month_start, first_entry_date) * 8
+    context["week_denominator"] -= numpy.busday_count(week_start, first_entry_date) * 8
+
     for entry in entries:
         entry_hours = float(entry["timeSpentSeconds"] / 3600)
         entry_billable = float(entry["billableSeconds"] / 3600)
