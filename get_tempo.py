@@ -83,13 +83,13 @@ def get_context(end_date):
     first_entry = entries[0]
     first_entry_date = datetime.strptime(first_entry["startDate"], "%Y-%m-%d").date()
     if first_entry_date >= context["year_start"]:
-        context["year_denominator"] -= numpy.busday_count(context["year_start"], first_entry_date) * 8
+        context["year_denominator"] -= numpy.busday_count(year_start, first_entry_date) * 8
     if first_entry_date >= context["quarter_start"]:
-        context["quarter_denominator"] -= numpy.busday_count(context["quarter_start"], first_entry_date) * 8
+        context["quarter_denominator"] -= numpy.busday_count(quarter_start, first_entry_date) * 8
     if first_entry_date >= context["month_start"]:
-        context["month_denominator"] -= numpy.busday_count(context["month_start"], first_entry_date) * 8
+        context["month_denominator"] -= numpy.busday_count(month_start, first_entry_date) * 8
     if first_entry_date >= context["week_start"]:
-        context["week_denominator"] -= numpy.busday_count(context["week_start"], first_entry_date) * 8
+        context["week_denominator"] -= numpy.busday_count(week_start, first_entry_date) * 8
 
     for entry in entries:
         entry_hours = float(entry["timeSpentSeconds"] / 3600)
