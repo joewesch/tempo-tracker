@@ -3,8 +3,10 @@ FROM python:3.9 AS base
 
 # Update pip and install poetry
 RUN pip install -U pip
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-ENV PATH="$PATH:/root/.poetry/bin"
+
+# Install poetry and add it to the PATH
+RUN curl -sSL https://install.python-poetry.org | python
+ENV PATH="/root/.local/bin:$PATH"
 
 # Don't create virtual env, instead install globally
 RUN poetry config virtualenvs.create false
