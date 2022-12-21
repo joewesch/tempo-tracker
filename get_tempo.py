@@ -6,7 +6,13 @@ import requests
 import numpy
 
 
-WELLNESS_CODES = ["NI2-5", "NI2-6", "NI2-22", "NI2-23"]
+WELLNESS_CODES = [
+    "NI2-5",  # PTO
+    "NI2-6",  # Holiday
+    "NI2-22",  # Parental Leave
+    "NI2-23",  # Sick
+    "NI3-6",  # 2023 Leave
+]
 
 # These are codes that show up in Tempo as billable, but they shouldn't be
 NON_BILLABLE_CODES = ["NI2-18", "NAUTOBOT-269", "NAUTOBOT-270", "NAUTOBOT-391", "NAUTOBOT-392"]
