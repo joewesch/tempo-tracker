@@ -15,7 +15,27 @@ WELLNESS_CODES = [
 ]
 
 # These are codes that show up in Tempo as billable, but they shouldn't be
-NON_BILLABLE_CODES = ["NI2-18", "NAUTOBOT-269", "NAUTOBOT-270", "NAUTOBOT-391", "NAUTOBOT-392"]
+NON_BILLABLE_CODES = [
+    "NI2-18",
+    "NAUTOBOT-269",
+    "NAUTOBOT-270",
+    "NAUTOBOT-391",
+    "NAUTOBOT-392",
+    "NI3-6",
+    "NI3-7",
+    "NI3-8",
+    "NI3-9",
+    "NI3-10",
+    "NI3-11",
+    "NI3-12",
+    "NI3-13",
+    "NI3-14",
+    "NI3-15",
+    "NI3-16",
+    "NI3-17",
+    "NI3-18",
+    "NI3-20",
+]
 
 TEMPO_USER_ID = os.getenv("TEMPO_USER_ID")
 if not TEMPO_USER_ID:
@@ -100,7 +120,7 @@ def get_context(end_date):
     for entry in entries:
         entry_hours = float(entry["timeSpentSeconds"] / 3600)
         entry_billable = float(entry["billableSeconds"] / 3600)
-        if entry["issue"]["key"] in NON_BILLABLE_CODES:
+        if entry["issue"]["key"] in NON_BILLABLE_CODES + WELLNESS_CODES:
             entry_billable = 0.0
         context["total_year_billable"] += entry_billable
         if entry["issue"]["key"] not in WELLNESS_CODES:
